@@ -26,9 +26,15 @@ Install the dependencies and devDependencies and start the server.
 git clone https://github.com/frannbian/vivetix-challange
 cd vivetix-challange
 cp .env.example .env
+sudo chmod -R 777 ./
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php83-composer:latest \
+    composer install --ignore-platform-reqs
 ./vendor/bin/sail up
-./vendor/bin/sail composer install
-./vendor/bin/sail artisan telescope:install
+./vendor/bin/sail artisan key:generate
 ./vendor/bin/sail artisan migrate
 ./vendor/bin/sail artisan db:seed --class="UserSeeder"
 npm install
@@ -36,6 +42,8 @@ npm run dev
 
 ```
 After that the microservice will start at http//localhost, you'll see a documentation & playground as a home.
+User: admin@events.com
+Passwor: adm1n1strator.!
 
 ## Request & Responses 
 For logs of the request & responses we gonna use "Laravel Telescope" a powerfull package for this feature.
